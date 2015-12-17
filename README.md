@@ -2,8 +2,8 @@ This is a Function for World of Warcraft.
 
 ## Function
 + Sound Pack for making Addon
-+ Binding Command "/console reloadui" => "/rl" or "/±â"
-+ Binding Command "/readycheck" => "/ww" or "/¤¸¤¸"
++ Binding Command "/console reloadui" => "/rl" or "/ê¸°"
++ Binding Command "/readycheck" => "/ww" or "/ã…ˆã…ˆ"
 + Shortcut Text of Hotkey
 + Image Swap on Healing Tonic/Healthstone for Macro
 + Fix Scale of Battlefield Minimap
