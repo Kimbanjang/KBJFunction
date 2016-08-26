@@ -18,14 +18,10 @@ local tDealer = CreateFrame("Frame", nil, MerchantFrame)
 
 local function onEvent(self, event)
 	if (event == "MERCHANT_SHOW") then
-		local bag, slot
---		if not MerchantFrame:IsVisible() then return end
-
 		for bag = 0, 4 do			-- 잡템 판매
 			for slot = 0, GetContainerNumSlots(bag) do
-				local link = GetContainerItemLink(bag, slot)
---				if link and (select(3, GetItemInfo(link))==0) then
-				if link and string.find(link,"ff9d9d9d") then 
+				local S = GetContainerItemLink(bag, slot)
+				if	S and string.find(S,"ff9d9d9d") then
 					UseContainerItem(bag, slot)
 				end
 			end
@@ -36,8 +32,6 @@ local function onEvent(self, event)
 			if (not co or co == 0) then	return
 			elseif gg and CanGuildBankRepair() then
 				self:RegisterEvent("UI_ERROR_MESSAGE")
---				print("|cFFFFCC00 길드 금고 보유액  :  ", GetMoneyString(GetGuildBankMoney()))
---				print("|cFFFFCC00 길드 지원 수리비  :  ", GetMoneyString(GetGuildBankWithdrawMoney()))	-- 길드장일 경우 에러
 				if  GetGuildBankWithdrawMoney()<co or (GetGuildBankMoney()<co and GetGuildBankMoney()>0) then
 					RepairAllItems()
 					print("|cFFFFCC00 수리비  :  ", GetMoneyString(co).."  |c0000CC00(길드 수리비 부족)" )
