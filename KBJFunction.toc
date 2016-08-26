@@ -1,7 +1,13 @@
-## Interface: 60200
+## Interface: 70000
 ## Title: KBJ Function
-## Version: 1.1
-## Author: Kimbanjang
+## Version: 1.3
+## Author: Various Authors (Edit by Kimbanjang)
 ## Notes: Useful Function Pack
 
+libs\LibStub\LibStub.lua
+#@no-lib-strip@
+libs\AceTimer-3.0\AceTimer-3.0.xml
+#@end-no-lib-strip@
+
 KBJFunction.lua
+FixHotkey.lua

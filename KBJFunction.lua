@@ -1,4 +1,65 @@
 ﻿--------------------------------------------------------------------------------------------------------
+-- 데미지 폰트 변경
+--------------------------------------------------------------------------------------------------------
+-- DAMAGE_TEXT_FONT = "Fonts\\DAMAGE.ttf"
+
+--------------------------------------------------------------------------------------------------------
+-- 110레벨 임무 추적창 자동 접힘
+--------------------------------------------------------------------------------------------------------
+if UnitLevel("player") == 110 then
+    ObjectiveTracker_Collapse()
+end
+
+--------------------------------------------------------------------------------------------------------
+-- 잡탬 판매, 자동 수리 
+--------------------------------------------------------------------------------------------------------
+local gg = true		-- 길드 수리비 사용 한다( true ), 안한다( false )
+local tDealer = CreateFrame("Frame", nil, MerchantFrame)
+
+local function onEvent(self, event)
+	if (event == "MERCHANT_SHOW") then
+		local bag, slot
+--		if not MerchantFrame:IsVisible() then return end
+
+		for bag = 0, 4 do			-- 잡템 판매
+			for slot = 0, GetContainerNumSlots(bag) do
+				local link = GetContainerItemLink(bag, slot)
+--				if link and (select(3, GetItemInfo(link))==0) then
+				if link and string.find(link,"ff9d9d9d") then 
+					UseContainerItem(bag, slot)
+				end
+			end
+		end
+
+		if CanMerchantRepair() then		-- 자동 수리
+			local co = GetRepairAllCost()
+			if (not co or co == 0) then	return
+			elseif gg and CanGuildBankRepair() then
+				self:RegisterEvent("UI_ERROR_MESSAGE")
+--				print("|cFFFFCC00 길드 금고 보유액  :  ", GetMoneyString(GetGuildBankMoney()))
+--				print("|cFFFFCC00 길드 지원 수리비  :  ", GetMoneyString(GetGuildBankWithdrawMoney()))	-- 길드장일 경우 에러
+				if  GetGuildBankWithdrawMoney()<co or (GetGuildBankMoney()<co and GetGuildBankMoney()>0) then
+					RepairAllItems()
+					print("|cFFFFCC00 수리비  :  ", GetMoneyString(co).."  |c0000CC00(길드 수리비 부족)" )
+				else
+					RepairAllItems(1)
+					print("|cFFFFCC00 수리비 |c0000CC00(길드) |cFFFFCC00 :  ", GetMoneyString(co))
+				end
+				self:UnregisterEvent("UI_ERROR_MESSAGE")
+			elseif  GetMoney() < co then
+				print("|cFFFFCC00 수리비가 부족해요. ㅠㅠ")
+			else
+				RepairAllItems()
+				print("|cFFFFCC00 수리비  :  ", GetMoneyString(co))
+			end
+		end
+	end
+end
+
+tDealer:SetScript("OnEvent", onEvent)
+tDealer:RegisterEvent("MERCHANT_SHOW")
+
+--------------------------------------------------------------------------------------------------------
 -- /console reloadui
 --------------------------------------------------------------------------------------------------------
 SlashCmdList.RELOAD = ReloadUI
@@ -12,36 +73,39 @@ SlashCmdList.RDYCHK = function() DoReadyCheck() end
 SLASH_RDYCHK1 = "/ww"
 SLASH_RDYCHK2 = "/ㅈㅈ"
 
+--[[----------------------------------------------------------------------------------------------------
+-- 영클라, 한글 채팅 명령어
 --------------------------------------------------------------------------------------------------------
--- 핫키 택스트 간략화
---------------------------------------------------------------------------------------------------------
-local function updatehotkey(self, actionButtonType)
-	local hotkey = _G[self:GetName() .. 'HotKey']
-        local text = hotkey:GetText()      
-        text = string.gsub(text, 's%-', 's')
-        text = string.gsub(text, 'a%-', 'a')
-        text = string.gsub(text, 'c%-', 'c')
-        text = string.gsub(text, 'Mouse Wheel Up', 'MU')
-        text = string.gsub(text, 'Mouse Wheel Down', 'MD')
-        text = string.gsub(text, 'Mouse Button 3', 'M3')
-	text = string.gsub(text, 'Mouse Button 4', 'M4')
-	text = string.gsub(text, 'Mouse Button 5', 'M5')
-        text = string.gsub(text, 'Capslock', 'CL')
-       
-        if hotkey:GetText() == RANGE_INDICATOR then
-		hotkey:SetText('')
-        else
-		hotkey:SetText(text)
-        end
-end 
-hooksecurefunc("ActionButton_UpdateHotkeys", updatehotkey)
+SLASH_fixKRcommandGUILD1 = "/ㅎ"
+function SlashCmdList.fixKRcommandGUILD(msg)
+	SendChatMessage(msg, "GUILD")
+end
+
+SLASH_fixKRcommandINSTANCE1 = "/ㅑ"
+function SlashCmdList.fixKRcommandINSTANCE(msg)
+	SendChatMessage(msg, "INSTANCE_CHAT")
+end
+
+SLASH_fixKRcommandRAID1 = "/ㄱ"
+function SlashCmdList.fixKRcommandINSTANCE(msg)
+	SendChatMessage(msg, "RAID")
+end
+SLASH_fixKRcommandPARTY1 = "/ㅔ"
+function SlashCmdList.fixKRcommandINSTANCE(msg)
+	SendChatMessage(msg, "PARTY")
+end
+SLASH_fixKRcommandSAY1 = "/ㄴ"
+function SlashCmdList.fixKRcommandINSTANCE(msg)
+	SendChatMessage(msg, "SAY")
+end
+]]
 
 --------------------------------------------------------------------------------------------------------
 -- 생명석/명인물약 매크로 이미지 스왑
 --------------------------------------------------------------------------------------------------------
 local healPotMacroIcon = CreateFrame("Frame")
 healPotMacroIcon:SetScript("OnEvent",function(self,event,...)
-SetMacroItem("HP",GetItemCount("Healthstone")==0 and "Healing Tonic" or "Healthstone")
+SetMacroItem("!HP",GetItemCount("Healthstone")==0 and "Healing Tonic" or "Healthstone")
 end)
 
 healPotMacroIcon:RegisterEvent("BAG_UPDATE")
@@ -63,3 +127,63 @@ battleMap:SetScript("OnEvent",function()
 end)
 
 battleMap:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+--------------------------------------------------------------------------------------------------------
+-- 전체 상태 프레임 이동
+--------------------------------------------------------------------------------------------------------
+WorldStateAlwaysUpFrame:ClearAllPoints()
+WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -90)
+
+--------------------------------------------------------------------------------------------------------
+-- /opt [blizz condition] [Func] 2중 슬래쉬 명령어
+--------------------------------------------------------------------------------------------------------
+function KBJ_DoCommand(text)
+	local command = text:match("^(/%S+)")
+	
+	--if command and IsSecureCmd(command) then
+	--	print("You cannot using : ", command)
+	--	return
+	--end
+	
+	local origText = ChatFrame1EditBox:GetText()
+	ChatFrame1EditBox:SetText(text)
+	ChatEdit_SendText(ChatFrame1EditBox)
+	ChatFrame1EditBox:SetText(origText)
+end
+
+SlashCmdList.OPTION_SLASH = function(message)
+	message = SecureCmdOptionParse(message)
+	if message then
+		KBJ_DoCommand(message)
+	end
+end
+SLASH_OPTION_SLASH1 = "/opt"
+
+--------------------------------------------------------------------------------------------------------
+-- /in [time] [Func] 타임 스케줄러
+--------------------------------------------------------------------------------------------------------
+local addonName, SlashIn = ...
+LibStub("AceTimer-3.0"):Embed(SlashIn)
+
+local print = print
+local tonumber = tonumber
+local MacroEditBox = MacroEditBox
+local MacroEditBox_OnEvent = MacroEditBox:GetScript("OnEvent")
+
+local function OnCallback(command)
+	MacroEditBox_OnEvent(MacroEditBox, "EXECUTE_CHAT_LINE", command)
+end
+
+SLASH_SLASHIN_IN1 = "/in"
+SLASH_SLASHIN_IN2 = "/slashin"
+function SlashCmdList.SLASHIN_IN(msg)
+	local secs, command = msg:match("^([^%s]+)%s+(.*)$")
+	secs = tonumber(secs)
+	if (not secs) or (#command == 0) then
+		local prefix = "|cff33ff99"..addonName.."|r:"
+		print(prefix, "usage:\n /in <seconds> <command>")
+		print(prefix, "example:\n /in 1.5 /say hi")
+	else
+		SlashIn:ScheduleTimer(OnCallback, secs, command)
+	end
+end

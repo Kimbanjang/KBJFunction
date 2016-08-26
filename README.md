@@ -1,4 +1,4 @@
-This is a Function for World of Warcraft.
+This is a Useful Function for World of Warcraft.
 
 ## Function
 + Sound Pack for making Addon
@@ -8,9 +8,8 @@ This is a Function for World of Warcraft.
 + Image Swap on Healing Tonic/Healthstone for Macro
 + Fix Scale of Battlefield Minimap
 + Hide Border/Button of Battlefield Minimap
-
-## Change log
-+ 1.1 Add Function for Battlefield Minimap
-
-## History
-+ 1.0 First Release
++ Move WorldStateAlwaysUpFrame
++ Auto Collapse Objective Tracker
++ Auto Selling and Repair
++ /opt Funtion
++ /in Funtion
