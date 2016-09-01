@@ -6,22 +6,33 @@
 --------------------------------------------------------------------------------------------------------
 -- 110레벨 임무 추적창 자동 접힘
 --------------------------------------------------------------------------------------------------------
-if UnitLevel("player") == 110 then
-    ObjectiveTracker_Collapse()
-end
+--if UnitLevel("player") == 110 then
+--	ObjectiveTracker_Collapse()
+--end
+
+--------------------------------------------------------------------------------------------------------
+-- 카메라 시점 최대 확장
+--------------------------------------------------------------------------------------------------------
+local cameraInsight = CreateFrame('Frame')
+cameraInsight:RegisterEvent('PLAYER_ENTERING_WORLD')
+cameraInsight:SetScript('OnEvent', function()
+   	SetCVar('cameraDistanceMaxFactor', 2.6)
+   	SetCVar('cameraDistanceMoveSpeed', 40)
+    cameraInsight:UnregisterEvent('PLAYER_ENTERING_WORLD')
+end) 
 
 --------------------------------------------------------------------------------------------------------
 -- 잡탬 판매, 자동 수리 
 --------------------------------------------------------------------------------------------------------
 local gg = true		-- 길드 수리비 사용 한다( true ), 안한다( false )
-local tDealer = CreateFrame("Frame", nil, MerchantFrame)
+local tDealer = CreateFrame('Frame', nil, MerchantFrame)
 
-local function onEvent(self, event)
-	if (event == "MERCHANT_SHOW") then
+local onEvent = function(self, event)
+	if (event == 'MERCHANT_SHOW') then
 		for bag = 0, 4 do			-- 잡템 판매
 			for slot = 0, GetContainerNumSlots(bag) do
 				local S = GetContainerItemLink(bag, slot)
-				if	S and string.find(S,"ff9d9d9d") then
+				if	S and string.find(S, "ff9d9d9d") then
 					UseContainerItem(bag, slot)
 				end
 			end
@@ -31,15 +42,15 @@ local function onEvent(self, event)
 			local co = GetRepairAllCost()
 			if (not co or co == 0) then	return
 			elseif gg and CanGuildBankRepair() then
-				self:RegisterEvent("UI_ERROR_MESSAGE")
-				if  GetGuildBankWithdrawMoney()<co or (GetGuildBankMoney()<co and GetGuildBankMoney()>0) then
+				self:RegisterEvent('UI_ERROR_MESSAGE')
+				if  GetGuildBankWithdrawMoney() < co or (GetGuildBankMoney() < co and GetGuildBankMoney() > 0) then
 					RepairAllItems()
 					print("|cFFFFCC00 수리비  :  ", GetMoneyString(co).."  |c0000CC00(길드 수리비 부족)" )
 				else
 					RepairAllItems(1)
 					print("|cFFFFCC00 수리비 |c0000CC00(길드) |cFFFFCC00 :  ", GetMoneyString(co))
 				end
-				self:UnregisterEvent("UI_ERROR_MESSAGE")
+				self:UnregisterEvent('UI_ERROR_MESSAGE')
 			elseif  GetMoney() < co then
 				print("|cFFFFCC00 수리비가 부족해요. ㅠㅠ")
 			else
@@ -50,8 +61,8 @@ local function onEvent(self, event)
 	end
 end
 
-tDealer:SetScript("OnEvent", onEvent)
-tDealer:RegisterEvent("MERCHANT_SHOW")
+tDealer:SetScript('OnEvent', onEvent)
+tDealer:RegisterEvent('MERCHANT_SHOW')
 
 --------------------------------------------------------------------------------------------------------
 -- /console reloadui
@@ -97,36 +108,44 @@ end
 --------------------------------------------------------------------------------------------------------
 -- 생명석/명인물약 매크로 이미지 스왑
 --------------------------------------------------------------------------------------------------------
-local healPotMacroIcon = CreateFrame("Frame")
-healPotMacroIcon:SetScript("OnEvent",function(self,event,...)
+local healPotMacroIcon = CreateFrame('Frame')
+healPotMacroIcon:SetScript('OnEvent', function(self,event,...)
 SetMacroItem("!HP",GetItemCount("Healthstone")==0 and "Healing Tonic" or "Healthstone")
 end)
 
-healPotMacroIcon:RegisterEvent("BAG_UPDATE")
-healPotMacroIcon:RegisterEvent("PLAYER_LOGIN")
+healPotMacroIcon:RegisterEvent('BAG_UPDATE')
+healPotMacroIcon:RegisterEvent('PLAYER_LOGIN')
 
 --------------------------------------------------------------------------------------------------------
 -- 전장 지도 크기조정 및 테두리/버튼 숨기기
 --------------------------------------------------------------------------------------------------------
-local battleMap = CreateFrame("Frame")
-battleMap:SetScript("OnEvent",function()
+local battleMap = CreateFrame('Frame')
+battleMap:SetScript('OnEvent', function()
 	if not BattlefieldMinimap then
-		LoadAddOn("Blizzard_BattlefieldMinimap")
+		LoadAddOn('Blizzard_BattlefieldMinimap')
 	end
-	BattlefieldMinimap:SetScale(1.29)	
+	BattlefieldMinimap:SetScale(1.29)
 	BattlefieldMinimapCorner:SetTexture(nil)
 	BattlefieldMinimapBackground:SetTexture(nil)
 	BattlefieldMinimapCloseButton:Hide()
 	BattlefieldMinimap:Show()
 end)
 
-battleMap:RegisterEvent("PLAYER_ENTERING_WORLD")
+battleMap:RegisterEvent('PLAYER_ENTERING_WORLD')
 
 --------------------------------------------------------------------------------------------------------
 -- 전체 상태 프레임 이동
 --------------------------------------------------------------------------------------------------------
-WorldStateAlwaysUpFrame:ClearAllPoints()
-WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -90)
+--WorldStateAlwaysUpFrame:ClearAllPoints()
+--WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -90)
+
+--------------------------------------------------------------------------------------------------------
+-- 직업전당 정보바 숨기기
+--------------------------------------------------------------------------------------------------------
+local orderHallBar = OrderHallCommandBar
+orderHallBar:UnregisterAllEvents()
+orderHallBar:HookScript('OnShow', orderHallBar.Hide)
+orderHallBar:Hide()
 
 --------------------------------------------------------------------------------------------------------
 -- /opt [blizz condition] [Func] 2중 슬래쉬 명령어
@@ -162,10 +181,10 @@ LibStub("AceTimer-3.0"):Embed(SlashIn)
 local print = print
 local tonumber = tonumber
 local MacroEditBox = MacroEditBox
-local MacroEditBox_OnEvent = MacroEditBox:GetScript("OnEvent")
+local MacroEditBox_OnEvent = MacroEditBox:GetScript('OnEvent')
 
 local function OnCallback(command)
-	MacroEditBox_OnEvent(MacroEditBox, "EXECUTE_CHAT_LINE", command)
+	MacroEditBox_OnEvent(MacroEditBox, 'EXECUTE_CHAT_LINE', command)
 end
 
 SLASH_SLASHIN_IN1 = "/in"
