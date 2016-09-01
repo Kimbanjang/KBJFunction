@@ -144,8 +144,11 @@ battleMap:RegisterEvent('PLAYER_ENTERING_WORLD')
 --------------------------------------------------------------------------------------------------------
 local orderHallBar = OrderHallCommandBar
 orderHallBar:UnregisterAllEvents()
-orderHallBar:HookScript('OnShow', orderHallBar.Hide)
+orderHallBar:SetScript('OnShow', orderHallBar.Hide)
 orderHallBar:Hide()
+
+UIParent:UnregisterEvent('UNIT_AURA')
+
 
 --------------------------------------------------------------------------------------------------------
 -- /opt [blizz condition] [Func] 2중 슬래쉬 명령어
