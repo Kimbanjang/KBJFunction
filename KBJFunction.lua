@@ -140,15 +140,32 @@ battleMap:RegisterEvent('PLAYER_ENTERING_WORLD')
 --WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -90)
 
 --------------------------------------------------------------------------------------------------------
--- 직업전당 정보바 숨기기
+-- 이동속도
 --------------------------------------------------------------------------------------------------------
-local orderHallBar = OrderHallCommandBar
-orderHallBar:UnregisterAllEvents()
-orderHallBar:SetScript('OnShow', orderHallBar.Hide)
-orderHallBar:Hide()
+CharacterFrameInsetRight.speed = CharacterFrameInsetRight.text or CharacterFrameInsetRight:CreateFontString(nil, "ARTWORK");
+CharacterFrameInsetRight.speed:SetPoint("BOTTOM", CharacterFrameInsetRight, "BOTTOM", 0, 20);
+CharacterFrameInsetRight.speed:SetFontObject(NumberFontNormal);
 
-UIParent:UnregisterEvent('UNIT_AURA')
+function CharacterFrameInsetRight:OnUpdate(elapsed)
+	local _, run, flight, swim = GetUnitSpeed("player");
 
+	run = run / 7 * 100;
+	flight = flight / 7 * 100;
+	swim = swim / 7 * 100;
+
+	local speed;
+	if IsFlying("player") then
+		speed = flight;
+	elseif IsSwimming("player") then
+		speed = swim;
+	else
+		speed = run;
+	end
+
+	CharacterFrameInsetRight.speed:SetText(string.format("Movement Speed: %d", speed));
+end
+
+CharacterFrameInsetRight:SetScript("OnUpdate", CharacterFrameInsetRight.OnUpdate);
 
 --------------------------------------------------------------------------------------------------------
 -- /opt [blizz condition] [Func] 2중 슬래쉬 명령어
