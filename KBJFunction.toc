@@ -9,5 +9,5 @@ libs\LibStub\LibStub.lua
 libs\AceTimer-3.0\AceTimer-3.0.xml
 #@end-no-lib-strip@
 
-KBJFunction.lua
+KBJfunction.lua
 FixHotkey.lua

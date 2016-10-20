@@ -25,14 +25,14 @@ end)
 -- 잡탬 판매, 자동 수리 
 --------------------------------------------------------------------------------------------------------
 local gg = true		-- 길드 수리비 사용 한다( true ), 안한다( false )
-local tDealer = CreateFrame('Frame', nil, MerchantFrame)
+local kbjDealer = CreateFrame('Frame', nil, MerchantFrame)
 
 local onEvent = function(self, event)
 	if (event == 'MERCHANT_SHOW') then
 		for bag = 0, 4 do			-- 잡템 판매
 			for slot = 0, GetContainerNumSlots(bag) do
 				local S = GetContainerItemLink(bag, slot)
-				if	S and string.find(S, "ff9d9d9d") then
+				if S and string.find(S, "ff9d9d9d") then
 					UseContainerItem(bag, slot)
 				end
 			end
@@ -42,13 +42,16 @@ local onEvent = function(self, event)
 			local co = GetRepairAllCost()
 			if (not co or co == 0) then	return
 			elseif gg and CanGuildBankRepair() then
+				local _, _, gI = GetGuildInfo("player")
 				self:RegisterEvent('UI_ERROR_MESSAGE')
-				if  GetGuildBankWithdrawMoney() < co or (GetGuildBankMoney() < co and GetGuildBankMoney() > 0) then
+
+				if	(gI~=0 and GetGuildBankWithdrawMoney()<co) or GetGuildBankMoney()==0
+				or	(GetGuildBankMoney()<co and GetGuildBankMoney()>0) then
 					RepairAllItems()
-					print("|cFFFFCC00 수리비  :  ", GetMoneyString(co).."  |c0000CC00(길드 수리비 부족)" )
+					print("|cFFFFCC00 수리비 : ", GetMoneyString(co).."  |c0000CC00(길드 수리비 부족)" )
 				else
 					RepairAllItems(1)
-					print("|cFFFFCC00 수리비 |c0000CC00(길드) |cFFFFCC00 :  ", GetMoneyString(co))
+					print("|cFFFFCC00 수리비 |c0000CC00(길드) |cFFFFCC00: ", GetMoneyString(co))
 				end
 				self:UnregisterEvent('UI_ERROR_MESSAGE')
 			elseif  GetMoney() < co then
@@ -61,8 +64,8 @@ local onEvent = function(self, event)
 	end
 end
 
-tDealer:SetScript('OnEvent', onEvent)
-tDealer:RegisterEvent('MERCHANT_SHOW')
+kbjDealer:SetScript('OnEvent', onEvent)
+kbjDealer:RegisterEvent('MERCHANT_SHOW')
 
 --------------------------------------------------------------------------------------------------------
 -- /console reloadui
@@ -105,7 +108,7 @@ function SlashCmdList.fixKRcommandINSTANCE(msg)
 end
 ]]
 
---------------------------------------------------------------------------------------------------------
+--[[----------------------------------------------------------------------------------------------------
 -- 생명석/명인물약 매크로 이미지 스왑
 --------------------------------------------------------------------------------------------------------
 local healPotMacroIcon = CreateFrame('Frame')
@@ -115,6 +118,7 @@ end)
 
 healPotMacroIcon:RegisterEvent('BAG_UPDATE')
 healPotMacroIcon:RegisterEvent('PLAYER_LOGIN')
+]]
 
 --------------------------------------------------------------------------------------------------------
 -- 전장 지도 크기조정 및 테두리/버튼 숨기기
@@ -134,13 +138,7 @@ end)
 battleMap:RegisterEvent('PLAYER_ENTERING_WORLD')
 
 --------------------------------------------------------------------------------------------------------
--- 전체 상태 프레임 이동
---------------------------------------------------------------------------------------------------------
---WorldStateAlwaysUpFrame:ClearAllPoints()
---WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -90)
-
---------------------------------------------------------------------------------------------------------
--- 이동속도
+-- 이동속도 표시
 --------------------------------------------------------------------------------------------------------
 CharacterFrameInsetRight.speed = CharacterFrameInsetRight.text or CharacterFrameInsetRight:CreateFontString(nil, "ARTWORK");
 CharacterFrameInsetRight.speed:SetPoint("BOTTOM", CharacterFrameInsetRight, "BOTTOM", 0, 20);
