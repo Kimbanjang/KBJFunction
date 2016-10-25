@@ -168,6 +168,7 @@ CharacterFrameInsetRight:SetScript("OnUpdate", CharacterFrameInsetRight.OnUpdate
 --------------------------------------------------------------------------------------------------------
 -- /opt [blizz condition] [Func] 2중 슬래쉬 명령어
 --------------------------------------------------------------------------------------------------------
+--[[
 function KBJ_DoCommand(text)
 	local command = text:match("^(/%S+)")
 	
@@ -189,6 +190,7 @@ SlashCmdList.OPTION_SLASH = function(message)
 	end
 end
 SLASH_OPTION_SLASH1 = "/opt"
+]]
 
 --------------------------------------------------------------------------------------------------------
 -- /in [time] [Func] 타임 스케줄러
