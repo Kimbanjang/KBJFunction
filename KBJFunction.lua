@@ -11,17 +11,6 @@
 --end
 
 --------------------------------------------------------------------------------------------------------
--- 카메라 시점 최대 확장
---------------------------------------------------------------------------------------------------------
-local cameraInsight = CreateFrame('Frame')
-cameraInsight:RegisterEvent('PLAYER_ENTERING_WORLD')
-cameraInsight:SetScript('OnEvent', function()
-   	SetCVar('cameraDistanceMaxFactor', 2.6)
-   	SetCVar('cameraDistanceMoveSpeed', 40)
-    cameraInsight:UnregisterEvent('PLAYER_ENTERING_WORLD')
-end) 
-
---------------------------------------------------------------------------------------------------------
 -- 잡탬 판매, 자동 수리 
 --------------------------------------------------------------------------------------------------------
 local gg = true		-- 길드 수리비 사용 한다( true ), 안한다( false )
@@ -168,7 +157,6 @@ CharacterFrameInsetRight:SetScript("OnUpdate", CharacterFrameInsetRight.OnUpdate
 --------------------------------------------------------------------------------------------------------
 -- /opt [blizz condition] [Func] 2중 슬래쉬 명령어
 --------------------------------------------------------------------------------------------------------
---[[
 function KBJ_DoCommand(text)
 	local command = text:match("^(/%S+)")
 	
@@ -190,7 +178,6 @@ SlashCmdList.OPTION_SLASH = function(message)
 	end
 end
 SLASH_OPTION_SLASH1 = "/opt"
-]]
 
 --------------------------------------------------------------------------------------------------------
 -- /in [time] [Func] 타임 스케줄러
