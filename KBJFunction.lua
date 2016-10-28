@@ -129,30 +129,14 @@ battleMap:RegisterEvent('PLAYER_ENTERING_WORLD')
 --------------------------------------------------------------------------------------------------------
 -- 이동속도 표시
 --------------------------------------------------------------------------------------------------------
-CharacterFrameInsetRight.speed = CharacterFrameInsetRight.text or CharacterFrameInsetRight:CreateFontString(nil, "ARTWORK");
-CharacterFrameInsetRight.speed:SetPoint("BOTTOM", CharacterFrameInsetRight, "BOTTOM", 0, 20);
-CharacterFrameInsetRight.speed:SetFontObject(NumberFontNormal);
+PAPERDOLL_STATCATEGORIES[1].stats[7] = { stat = "MOVESPEED" };
+hooksecurefunc("PaperDollFrame_SetMovementSpeed", function(statFrame, unit)
+	statFrame:Show()
+end)
 
-function CharacterFrameInsetRight:OnUpdate(elapsed)
-	local _, run, flight, swim = GetUnitSpeed("player");
-
-	run = run / 7 * 100;
-	flight = flight / 7 * 100;
-	swim = swim / 7 * 100;
-
-	local speed;
-	if IsFlying("player") then
-		speed = flight;
-	elseif IsSwimming("player") then
-		speed = swim;
-	else
-		speed = run;
-	end
-
-	CharacterFrameInsetRight.speed:SetText(string.format("Movement Speed: %d", speed));
-end
-
-CharacterFrameInsetRight:SetScript("OnUpdate", CharacterFrameInsetRight.OnUpdate);
+hooksecurefunc("MovementSpeed_OnEnter", function(statFrame, unit)
+    statFrame.UpdateTooltip = nil
+end)
 
 --------------------------------------------------------------------------------------------------------
 -- /opt [blizz condition] [Func] 2중 슬래쉬 명령어
