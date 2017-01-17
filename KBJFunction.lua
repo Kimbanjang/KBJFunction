@@ -139,6 +139,24 @@ hooksecurefunc("MovementSpeed_OnEnter", function(statFrame, unit)
 end)
 
 --------------------------------------------------------------------------------------------------------
+-- NamePlate 수정
+--------------------------------------------------------------------------------------------------------
+--- 이름표 높이
+hooksecurefunc("DefaultCompactNamePlateFrameSetupInternal", function(s)
+	s.healthBar:SetHeight(8)
+end)
+-- 비선택 이름표 투명도
+SetCVar("nameplateMaxAlpha", 0.8)
+SetCVar("nameplateMinAlpha", 0.8)
+-- 비선택 이름표 크기
+SetCVar("nameplateMinScale", 0.8)
+SetCVar("nameplateMaxScale", 0.8)
+-- 적 선택 이름표 투명도
+SetCVar("nameplateSelectedAlpha", 1)
+-- 적 선택 이름표 크기
+SetCVar("nameplateSelectedScale", 1.1)
+
+--------------------------------------------------------------------------------------------------------
 -- /opt [blizz condition] [Func] 2중 슬래쉬 명령어
 --------------------------------------------------------------------------------------------------------
 function KBJ_DoCommand(text)
