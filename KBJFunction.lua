@@ -1,7 +1,7 @@
 ﻿--------------------------------------------------------------------------------------------------------
 -- 데미지 폰트 변경
 --------------------------------------------------------------------------------------------------------
--- DAMAGE_TEXT_FONT = "Fonts\\DAMAGE.ttf"
+DAMAGE_TEXT_FONT = "Interface\\AddOns\\KBJcombatUI\\Media\\fontStd.ttf"
 
 --------------------------------------------------------------------------------------------------------
 -- 110레벨 임무 추적창 자동 접힘
@@ -77,37 +77,34 @@ SLASH_fixKRcommandGUILD1 = "/ㅎ"
 function SlashCmdList.fixKRcommandGUILD(msg)
 	SendChatMessage(msg, "GUILD")
 end
-
 SLASH_fixKRcommandINSTANCE1 = "/ㅑ"
 function SlashCmdList.fixKRcommandINSTANCE(msg)
 	SendChatMessage(msg, "INSTANCE_CHAT")
 end
-
 SLASH_fixKRcommandRAID1 = "/ㄱ"
-function SlashCmdList.fixKRcommandINSTANCE(msg)
+function SlashCmdList.fixKRcommandRAID(msg)
 	SendChatMessage(msg, "RAID")
 end
 SLASH_fixKRcommandPARTY1 = "/ㅔ"
-function SlashCmdList.fixKRcommandINSTANCE(msg)
+function SlashCmdList.fixKRcommandPARTY(msg)
 	SendChatMessage(msg, "PARTY")
 end
 SLASH_fixKRcommandSAY1 = "/ㄴ"
-function SlashCmdList.fixKRcommandINSTANCE(msg)
+function SlashCmdList.fixKRcommandSAY(msg)
 	SendChatMessage(msg, "SAY")
 end
 ]]
 
---[[----------------------------------------------------------------------------------------------------
--- 생명석/명인물약 매크로 이미지 스왑
+--------------------------------------------------------------------------------------------------------
+-- 생명석/물약 매크로 이미지 스왑
 --------------------------------------------------------------------------------------------------------
 local healPotMacroIcon = CreateFrame('Frame')
 healPotMacroIcon:SetScript('OnEvent', function(self,event,...)
-SetMacroItem("!HP",GetItemCount("Healthstone")==0 and "Healing Tonic" or "Healthstone")
+SetMacroItem("!HP",GetItemCount("Healthstone") == 0 and "Ancient Healing Potion" or "Healthstone")
 end)
 
 healPotMacroIcon:RegisterEvent('BAG_UPDATE')
 healPotMacroIcon:RegisterEvent('PLAYER_LOGIN')
-]]
 
 --------------------------------------------------------------------------------------------------------
 -- 전장 지도 크기조정 및 테두리/버튼 숨기기
@@ -138,23 +135,6 @@ hooksecurefunc("MovementSpeed_OnEnter", function(statFrame, unit)
     statFrame.UpdateTooltip = nil
 end)
 
---------------------------------------------------------------------------------------------------------
--- NamePlate 수정
---------------------------------------------------------------------------------------------------------
---- 이름표 높이
-hooksecurefunc("DefaultCompactNamePlateFrameSetupInternal", function(s)
-	s.healthBar:SetHeight(8)
-end)
--- 비선택 이름표 투명도
-SetCVar("nameplateMaxAlpha", 0.8)
-SetCVar("nameplateMinAlpha", 0.8)
--- 비선택 이름표 크기
-SetCVar("nameplateMinScale", 0.8)
-SetCVar("nameplateMaxScale", 0.8)
--- 적 선택 이름표 투명도
-SetCVar("nameplateSelectedAlpha", 1)
--- 적 선택 이름표 크기
-SetCVar("nameplateSelectedScale", 1.1)
 
 --------------------------------------------------------------------------------------------------------
 -- /opt [blizz condition] [Func] 2중 슬래쉬 명령어
