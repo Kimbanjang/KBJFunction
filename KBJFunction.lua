@@ -11,52 +11,6 @@ DAMAGE_TEXT_FONT = "Interface\\AddOns\\KBJcombatUI\\Media\\fontStd.ttf"
 --end
 
 --------------------------------------------------------------------------------------------------------
--- 잡탬 판매, 자동 수리 
---------------------------------------------------------------------------------------------------------
-local gg = true		-- 길드 수리비 사용 한다( true ), 안한다( false )
-local kbjDealer = CreateFrame('Frame', nil, MerchantFrame)
-
-local onEvent = function(self, event)
-	if (event == 'MERCHANT_SHOW') then
-		for bag = 0, 4 do			-- 잡템 판매
-			for slot = 0, GetContainerNumSlots(bag) do
-				local S = GetContainerItemLink(bag, slot)
-				if S and string.find(S, "ff9d9d9d") then
-					UseContainerItem(bag, slot)
-				end
-			end
-		end
-
-		if CanMerchantRepair() then		-- 자동 수리
-			local co = GetRepairAllCost()
-			if (not co or co == 0) then	return
-			elseif gg and CanGuildBankRepair() then
-				local _, _, gI = GetGuildInfo("player")
-				self:RegisterEvent('UI_ERROR_MESSAGE')
-
-				if	(gI~=0 and GetGuildBankWithdrawMoney()<co) or GetGuildBankMoney()==0
-				or	(GetGuildBankMoney()<co and GetGuildBankMoney()>0) then
-					RepairAllItems()
-					print("|cFFFFCC00 수리비 : ", GetMoneyString(co).."  |c0000CC00(길드 수리비 부족)" )
-				else
-					RepairAllItems(1)
-					print("|cFFFFCC00 수리비 |c0000CC00(길드) |cFFFFCC00: ", GetMoneyString(co))
-				end
-				self:UnregisterEvent('UI_ERROR_MESSAGE')
-			elseif  GetMoney() < co then
-				print("|cFFFFCC00 수리비가 부족해요. ㅠㅠ")
-			else
-				RepairAllItems()
-				print("|cFFFFCC00 수리비  :  ", GetMoneyString(co))
-			end
-		end
-	end
-end
-
-kbjDealer:SetScript('OnEvent', onEvent)
-kbjDealer:RegisterEvent('MERCHANT_SHOW')
-
---------------------------------------------------------------------------------------------------------
 -- /console reloadui
 --------------------------------------------------------------------------------------------------------
 SlashCmdList.RELOAD = ReloadUI
@@ -94,6 +48,85 @@ function SlashCmdList.fixKRcommandSAY(msg)
 	SendChatMessage(msg, "SAY")
 end
 ]]
+
+--------------------------------------------------------------------------------------------------------
+-- 잡탬 판매, 자동 수리 
+--------------------------------------------------------------------------------------------------------
+local gg = true		-- 길드 수리비 사용 한다( true ), 안한다( false )
+local kbjDealer = CreateFrame('Frame', nil, MerchantFrame)
+
+local onEvent = function(self, event)
+	if (event == 'MERCHANT_SHOW') then
+		for bag = 0, 4 do			-- 잡템 판매
+			for slot = 0, GetContainerNumSlots(bag) do
+				local S = GetContainerItemLink(bag, slot)
+				if S and string.find(S, "ff9d9d9d") then
+					UseContainerItem(bag, slot)
+				end
+			end
+		end
+
+		if CanMerchantRepair() then		-- 자동 수리
+			local co = GetRepairAllCost()
+			if (not co or co == 0) then	return
+			elseif gg and CanGuildBankRepair() then
+				local _, _, gI = GetGuildInfo("player")
+				self:RegisterEvent('UI_ERROR_MESSAGE')
+
+				if	(gI~=0 and GetGuildBankWithdrawMoney()<co) or GetGuildBankMoney()==0
+				or	(GetGuildBankMoney()<co and GetGuildBankMoney()>0) then
+					RepairAllItems()
+					print("|cFFFFCC00 수리비 : ", GetMoneyString(co).."  |c0000CC00(길드 수리비 부족)" )
+				else
+					RepairAllItems(1)
+					print("|cFFFFCC00 수리비 |c0000CC00(길드) |cFFFFCC00: ", GetMoneyString(co))
+				end
+				self:UnregisterEvent('UI_ERROR_MESSAGE')
+			elseif  GetMoney() < co then
+				print("|cFFFFCC00 수리비 부족")
+			else
+				RepairAllItems()
+				print("|cFFFFCC00 수리비 : ", GetMoneyString(co))
+			end
+		end
+	end
+end
+
+kbjDealer:SetScript('OnEvent', onEvent)
+kbjDealer:RegisterEvent('MERCHANT_SHOW')
+
+--------------------------------------------------------------------------------------------------------
+-- 가방 위치 조정
+--------------------------------------------------------------------------------------------------------
+function KBJ_MoveBags()
+	-- config
+	local xOffset = -7
+	local yOffset = 45
+	-- /config
+
+	local Bagframe
+	local screenHeight = GetScreenHeight()
+	local bagFrameHeight = screenHeight - yOffset
+	local column = 0
+
+	for index, frameName in ipairs(ContainerFrame1.bags) do
+		Bagframe = getglobal(frameName)
+		Bagframe:SetClampedToScreen(true)
+
+			if ( index == 1 ) then
+				Bagframe:SetPoint('BOTTOMRIGHT', Bagframe:GetParent(), 'BOTTOMRIGHT', xOffset, yOffset)
+			elseif ( bagFrameHeight < Bagframe:GetHeight() ) then
+				column = column + 1
+				bagFrameHeight = screenHeight - yOffset
+				Bagframe:SetPoint('BOTTOMRIGHT', Bagframe:GetParent(), 'BOTTOMRIGHT', -(column * CONTAINER_WIDTH) + xOffset, yOffset)
+			else
+				Bagframe:SetPoint('BOTTOMRIGHT', ContainerFrame1.bags[index-1], 'TOPRIGHT', 0, CONTAINER_SPACING)
+			end
+
+		bagFrameHeight = bagFrameHeight - Bagframe:GetHeight() - VISIBLE_CONTAINER_SPACING
+	end
+end
+hooksecurefunc("UpdateContainerFrameAnchors", KBJ_MoveBags)
 
 --------------------------------------------------------------------------------------------------------
 -- 생명석/물약 매크로 이미지 스왑
