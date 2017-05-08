@@ -25,8 +25,7 @@ local kbjFuncFindNeedFixMap = {
 }
 
 local kbjFuncfixMap = WorldMapZoomOutButton_OnClick
-
-local WorldMapZoomOutButton_OnClick = function()
+function WorldMapZoomOutButton_OnClick()
 	local id = kbjFuncFindNeedFixMap[GetCurrentMapAreaID()]
 	local out = id and id()
 	if out then
