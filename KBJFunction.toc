@@ -1,6 +1,6 @@
 ## Interface: 70200
 ## Title: KBJ Function
-## Version: 1.3
+## Version: 1.4
 ## Author: Various Authors (Edit by Kimbanjang)
 ## Notes: Useful Function Pack
 
