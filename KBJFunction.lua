@@ -195,11 +195,11 @@ SLASH_RDYCHK1 = "/ww"
 SLASH_RDYCHK2 = "/ㅈㅈ"
 
 --------------------------------------------------------------------------------------------------------
--- 생명석/물약 매크로 이미지 스왑
+-- 생명석/물약 매크로 이미지 스왑 -- Ancient Healing Potion/Healthstone
 --------------------------------------------------------------------------------------------------------
 local kbjFuncHealPotMacroIcon = CreateFrame('Frame')
 kbjFuncHealPotMacroIcon:SetScript('OnEvent', function(self,event,...)
-SetMacroItem("!HP",GetItemCount("Healthstone") == 0 and "Ancient Healing Potion" or "Healthstone")
+SetMacroItem("!HP",GetItemCount("생명석") == 0 and "고대 치유 물약" or "생명석")
 end)
 kbjFuncHealPotMacroIcon:RegisterEvent('BAG_UPDATE')
 kbjFuncHealPotMacroIcon:RegisterEvent('PLAYER_LOGIN')
