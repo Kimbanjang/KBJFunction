@@ -204,21 +204,20 @@ end)
 kbjFuncHealPotMacroIcon:RegisterEvent('BAG_UPDATE')
 kbjFuncHealPotMacroIcon:RegisterEvent('PLAYER_LOGIN')
 
---------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 -- 전장 지도 크기조정 및 테두리/버튼 숨기기
 --------------------------------------------------------------------------------------------------------
 local kbjFuncBattleMap = CreateFrame('Frame')
 kbjFuncBattleMap:SetScript('OnEvent', function()
-	if not BattlefieldMinimap then
-		LoadAddOn('Blizzard_BattlefieldMinimap')
+	if not BattlefieldMapFrame then
+		LoadAddOn('Blizzard_BattlefieldMap')
 	end
-	BattlefieldMinimap:SetScale(1.29)
-	BattlefieldMinimapCorner:SetTexture(nil)
-	BattlefieldMinimapBackground:SetTexture(nil)
-	BattlefieldMinimapCloseButton:Hide()
-	BattlefieldMinimap:Show()
+	BattlefieldMapFrame:SetScale(0.95)
+	BattlefieldMapFrame.BorderFrame:Hide()
+	BattlefieldMapFrame:Show()
 end)
 kbjFuncBattleMap:RegisterEvent('PLAYER_ENTERING_WORLD')
+
 
 --[[----------------------------------------------------------------------------------------------------
 -- 영클라, 한글 채팅 명령어
