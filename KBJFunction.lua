@@ -89,8 +89,8 @@ kbjFuncDealer:RegisterEvent('MERCHANT_SHOW')
 --------------------------------------------------------------------------------------------------------
 local kbjFuncMoveBags = function()
 	-- config
-	local xOffset = -7
-	local yOffset = 45
+	local xOffset = -6
+	local yOffset = 38
 	-- /config
 
 	local Bagframe
@@ -203,20 +203,6 @@ kbjFuncHealPotMacroIcon:SetScript('OnEvent', function(self, event, ...)
 end)
 kbjFuncHealPotMacroIcon:RegisterEvent('BAG_UPDATE')
 kbjFuncHealPotMacroIcon:RegisterEvent('PLAYER_LOGIN')
-
-------------------------------------------------------------------------------------------------------
--- 전장 지도 크기조정 및 테두리/버튼 숨기기
---------------------------------------------------------------------------------------------------------
-local kbjFuncBattleMap = CreateFrame('Frame')
-kbjFuncBattleMap:SetScript('OnEvent', function()
-	if not BattlefieldMapFrame then
-		LoadAddOn('Blizzard_BattlefieldMap')
-	end
-	BattlefieldMapFrame:SetScale(0.95)
-	BattlefieldMapFrame.BorderFrame:Hide()
-	BattlefieldMapFrame:Show()
-end)
-kbjFuncBattleMap:RegisterEvent('PLAYER_ENTERING_WORLD')
 
 --[[----------------------------------------------------------------------------------------------------
 -- 영클라, 한글 채팅 명령어

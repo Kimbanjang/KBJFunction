@@ -38,18 +38,18 @@ function _UpdateHotkeys(name, type, hide)
 end
 
 function onEvent(self, event, arg1)
-  if event == "PLAYER_ENTERING_WORLD" or "UPDATE_BINDINGS" then
-    _UpdateHotkeys("ActionButton", "ACTIONBUTTON", 1)
-    _UpdateHotkeys("MultiBarBottomLeftButton", "MULTIACTIONBAR1BUTTON", 1)
-    _UpdateHotkeys("MultiBarBottomRightButton", "MULTIACTIONBAR2BUTTON", 1)
-    _UpdateHotkeys("MultiBarRightButton", "MULTIACTIONBAR3BUTTON", 1)
-    _UpdateHotkeys("MultiBarLeftButton", "MULTIACTIONBAR4BUTTON", 1)
-    _UpdateHotkeys("BonusActionButton", "ACTIONBUTTON", 1)
-    _UpdateHotkeys("ExtraBarButton", "EXTRABARBUTTON", 1)
-    _UpdateHotkeys("VehicleMenuBarActionButton", "ACTIONBUTTON", 1)
-    _UpdateHotkeys("OverrideActionBarButton", "ACTIONBUTTON", 1)
-    return
-  end
+	if event == "PLAYER_ENTERING_WORLD" or "UPDATE_BINDINGS" then
+		_UpdateHotkeys("ActionButton", "ACTIONBUTTON", 1)
+		_UpdateHotkeys("MultiBarBottomLeftButton", "MULTIACTIONBAR1BUTTON", 1)
+		_UpdateHotkeys("MultiBarBottomRightButton", "MULTIACTIONBAR2BUTTON", 1)
+		_UpdateHotkeys("MultiBarRightButton", "MULTIACTIONBAR3BUTTON", 1)
+		_UpdateHotkeys("MultiBarLeftButton", "MULTIACTIONBAR4BUTTON", 1)
+		_UpdateHotkeys("BonusActionButton", "ACTIONBUTTON", 1)
+		_UpdateHotkeys("ExtraBarButton", "EXTRABARBUTTON", 1)
+		_UpdateHotkeys("VehicleMenuBarActionButton", "ACTIONBUTTON", 1)
+		_UpdateHotkeys("OverrideActionBarButton", "ACTIONBUTTON", 1)
+		return
+	end
 end 
 
 frame = CreateFrame("Frame")
