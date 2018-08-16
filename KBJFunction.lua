@@ -178,7 +178,7 @@ SLASH_OPTION_SLASH1 = "/opt"
 --------------------------------------------------------------------------------------------------------
 -- 데미지 폰트 변경
 --------------------------------------------------------------------------------------------------------
-DAMAGE_TEXT_FONT = "Interface\\AddOns\\KBJcombatUI\\Media\\fontStd.ttf"
+DAMAGE_TEXT_FONT = "Fonts\\FRIZQT__.ttf"
 
 --------------------------------------------------------------------------------------------------------
 -- /console reloadui
@@ -203,6 +203,15 @@ kbjFuncHealPotMacroIcon:SetScript('OnEvent', function(self, event, ...)
 end)
 kbjFuncHealPotMacroIcon:RegisterEvent('BAG_UPDATE')
 kbjFuncHealPotMacroIcon:RegisterEvent('PLAYER_LOGIN')
+
+--------------------------------------------------------------------------------------------------------
+-- Move ZoneAbilityFrame
+--------------------------------------------------------------------------------------------------------
+ZoneAbilityFrame:SetParent(UIParent)
+ZoneAbilityFrame:ClearAllPoints()
+ZoneAbilityFrame:SetScale(0.9)
+ZoneAbilityFrame:SetPoint("BOTTOM", 0, 77)
+ZoneAbilityFrame.ignoreFramePositionManager = true
 
 --[[----------------------------------------------------------------------------------------------------
 -- 영클라, 한글 채팅 명령어
