@@ -155,12 +155,12 @@ end
 --------------------------------------------------------------------------------------------------------
 local kbjFuncDoCommand = function(text)
 	local command = text:match("^(/%S+)")
-	
+
 	if command and IsSecureCmd(command) then
 		print("You cannot using : ", command)
 		return
 	end
-	
+
 	local origText = ChatFrame1EditBox:GetText()
 	ChatFrame1EditBox:SetText(text)
 	ChatEdit_SendText(ChatFrame1EditBox)
@@ -210,7 +210,7 @@ kbjFuncHealPotMacroIcon:RegisterEvent('PLAYER_LOGIN')
 ZoneAbilityFrame:SetParent(UIParent)
 ZoneAbilityFrame:ClearAllPoints()
 ZoneAbilityFrame:SetScale(0.9)
-ZoneAbilityFrame:SetPoint("BOTTOM", 0, 77)
+ZoneAbilityFrame:SetPoint("BOTTOM", 0, 200)
 ZoneAbilityFrame.ignoreFramePositionManager = true
 
 --[[----------------------------------------------------------------------------------------------------
