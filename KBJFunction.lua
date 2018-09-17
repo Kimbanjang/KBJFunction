@@ -199,7 +199,7 @@ SLASH_RDYCHK2 = "/ㅈㅈ"
 --------------------------------------------------------------------------------------------------------
 local kbjFuncHealPotMacroIcon = CreateFrame('Frame')
 kbjFuncHealPotMacroIcon:SetScript('OnEvent', function(self, event, ...)
-	SetMacroItem("!HP",GetItemCount("생명석") == 0 and "천공의 치유 물약" or "생명석")
+	SetMacroItem("!HP",GetItemCount("생명석") == 0 and "해안 치유 물약" or "생명석")
 end)
 kbjFuncHealPotMacroIcon:RegisterEvent('BAG_UPDATE')
 kbjFuncHealPotMacroIcon:RegisterEvent('PLAYER_LOGIN')
@@ -213,7 +213,7 @@ ZoneAbilityFrame:SetScale(0.9)
 ZoneAbilityFrame:SetPoint("BOTTOM", 0, 200)
 ZoneAbilityFrame.ignoreFramePositionManager = true
 
---[[----------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
 -- 영클라, 한글 채팅 명령어
 --------------------------------------------------------------------------------------------------------
 SLASH_fixKRcommandGUILD1 = "/ㅎ"
@@ -236,4 +236,3 @@ SLASH_fixKRcommandSAY1 = "/ㄴ"
 function SlashCmdList.fixKRcommandSAY(msg)
 	SendChatMessage(msg, "SAY")
 end
-]]

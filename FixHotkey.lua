@@ -16,6 +16,13 @@ local function _CheckLongName(keyName)
     keyName = string.gsub(keyName,"아래 화살표","d")
     keyName = string.gsub(keyName,"오른쪽 화살표","r")
     keyName = string.gsub(keyName,"왼쪽 화살표","l")
+    --keyName = string.gsub(keyName,"F5","c3")
+    --keyName = string.gsub(keyName,"F6","c4")
+    --keyName = string.gsub(keyName,"F7","s5")
+    --keyName = string.gsub(keyName,"F5","c4")
+    --keyName = string.gsub(keyName,"F6","c5")
+    --keyName = string.gsub(keyName,"F7","s4")
+    --keyName = string.gsub(keyName,"F9","cQ")
     return keyName
 end
 
@@ -24,7 +31,7 @@ function _UpdateHotkeys(name, type, hide)
         local f =  getglobal(name..i)
         if not f then break end
         local hotkey = getglobal(f:GetName().."HotKey")
-        local key = GetBindingKey(type..i) 
+        local key = GetBindingKey(type..i)
         local text = GetBindingText(key, "KEY_", 1)
         text = _CheckLongName(text)
         hotkey.isApply = 1
@@ -50,7 +57,7 @@ function onEvent(self, event, arg1)
 		_UpdateHotkeys("OverrideActionBarButton", "ACTIONBUTTON", 1)
 		return
 	end
-end 
+end
 
 frame = CreateFrame("Frame")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
