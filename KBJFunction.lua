@@ -90,7 +90,7 @@ kbjFuncDealer:RegisterEvent('MERCHANT_SHOW')
 local kbjFuncMoveBags = function()
 	-- config
 	local xOffset = -6
-	local yOffset = 38
+	local yOffset = 35
 	-- /config
 
 	local Bagframe
@@ -213,7 +213,7 @@ ZoneAbilityFrame:SetScale(0.9)
 ZoneAbilityFrame:SetPoint("BOTTOM", 0, 200)
 ZoneAbilityFrame.ignoreFramePositionManager = true
 
---------------------------------------------------------------------------------------------------------
+--[[----------------------------------------------------------------------------------------------------
 -- 영클라, 한글 채팅 명령어
 --------------------------------------------------------------------------------------------------------
 SLASH_fixKRcommandGUILD1 = "/ㅎ"
@@ -236,3 +236,4 @@ SLASH_fixKRcommandSAY1 = "/ㄴ"
 function SlashCmdList.fixKRcommandSAY(msg)
 	SendChatMessage(msg, "SAY")
 end
+]]

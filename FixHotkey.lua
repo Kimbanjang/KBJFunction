@@ -16,13 +16,6 @@ local function _CheckLongName(keyName)
     keyName = string.gsub(keyName,"아래 화살표","d")
     keyName = string.gsub(keyName,"오른쪽 화살표","r")
     keyName = string.gsub(keyName,"왼쪽 화살표","l")
-    --keyName = string.gsub(keyName,"F5","c3")
-    --keyName = string.gsub(keyName,"F6","c4")
-    --keyName = string.gsub(keyName,"F7","s5")
-    --keyName = string.gsub(keyName,"F5","c4")
-    --keyName = string.gsub(keyName,"F6","c5")
-    --keyName = string.gsub(keyName,"F7","s4")
-    --keyName = string.gsub(keyName,"F9","cQ")
     return keyName
 end
 
