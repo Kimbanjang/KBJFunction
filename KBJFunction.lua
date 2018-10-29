@@ -89,8 +89,8 @@ kbjFuncDealer:RegisterEvent('MERCHANT_SHOW')
 --------------------------------------------------------------------------------------------------------
 local kbjFuncMoveBags = function()
 	-- config
-	local xOffset = -6
-	local yOffset = 35
+	local xOffset = -40
+	local yOffset = 4
 	-- /config
 
 	local Bagframe
