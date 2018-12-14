@@ -4,10 +4,5 @@
 ## Author: Various Authors (Editor : Kimbanjang)
 ## Notes: Useful Function Pack
 
-libs\LibStub\LibStub.lua
-#@no-lib-strip@
-libs\AceTimer-3.0\AceTimer-3.0.xml
-#@end-no-lib-strip@
-
 KBJfunction.lua
 FixHotkey.lua
