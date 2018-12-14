@@ -1,6 +1,6 @@
-## Interface: 80000
+## Interface: 80100
 ## Title: KBJ Function
-## Version: 8.0.1.1
+## Version: 8.1.0.1
 ## Author: Various Authors (Editor : Kimbanjang)
 ## Notes: Useful Function Pack
 
