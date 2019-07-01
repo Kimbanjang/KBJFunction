@@ -82,3 +82,13 @@ ZoneAbilityFrame:ClearAllPoints()
 ZoneAbilityFrame:SetScale(0.9)
 ZoneAbilityFrame:SetPoint("BOTTOM", 0, 200)
 ZoneAbilityFrame.ignoreFramePositionManager = true
+
+--------------------------------------------------------------------------------------------------------
+-- Move BuffFrame
+--------------------------------------------------------------------------------------------------------
+hooksecurefunc('BuffFrame_UpdateAllBuffAnchors',function()
+	BuffFrame:ClearAllPoints()
+	--BuffFrame:SetParent(UIParent)
+	--BuffFrame:SetScale(1.2)
+	BuffFrame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -320, -5)
+end)
